@@ -16,6 +16,17 @@ In order to test this design on hardware, you will need the following:
 * Vivado 2024.1
 * One of the target platforms listed below
 
+## FMC Cards
+
+These projects can be used with the following Opsero products:
+
+* [FPGA Drive FMC Gen4] (PN: OP063) with 2x [M.2 loopback] (PN: OP157)
+* [M.2 M-key Stack FMC] (PN: OP073) with 2x [M.2 loopback] (PN: OP157)
+
+They can also be used with the following FMC products from other vendors:
+
+* [FMC XM107 Loopback card]
+
 ## Target designs
 
 This repo contains several designs that target various supported development boards and their
@@ -101,3 +112,7 @@ a tight-knit team of FPGA experts delivering FPGA products and design services t
 Follow our blog, [FPGA Developer](https://www.fpgadeveloper.com "FPGA Developer"), for news, tutorials and
 updates on the awesome projects we work on.
 
+[FPGA Drive FMC Gen4]: https://www.fpgadrive.com/docs/fpga-drive-fmc-gen4/overview/
+[M.2 M-key Stack FMC]: https://www.fpgadrive.com/docs/m2-mkey-stack-fmc/overview/
+[M.2 loopback]: https://opsero.com/product/m-2-loopback-2230-mkey/
+[FMC XM107 Loopback card]: https://docs.amd.com/v/u/en-US/ug539
