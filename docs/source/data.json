@@ -1,0 +1,88 @@
+{
+  "groups": [
+    {
+      "label": "fpga",
+      "name": "FPGA"
+    },
+    {
+      "label": "z7",
+      "name": "Zynq-7000"
+    },
+    {
+      "label": "zu",
+      "name": "Zynq UltraScale+"
+    },
+    {
+      "label": "versal",
+      "name": "Versal"
+    }
+    ],
+  "boardgts": [
+    {
+      "board": "VEK280 ES Rev-B",
+      "link": "https://www.xilinx.com/vek280",
+      "url": "xilinx.com",
+      "boardname": "vek280_es_revb",
+      "part": "xcve2802-vsvh1760-2MP-e-S-es1",
+      "gtquad0": "GTYP QUAD 205",
+      "gtquad1": "GTYP QUAD 206",
+      "gtrefclk0": "GTYP REFCLK X1Y6",
+      "gtrefclk1": "GTYP REFCLK X1Y8",
+      "gtrefclkfreq0": "100",
+      "gtrefclkfreq1": "100"
+    }
+    ],
+  "designs": [
+    {
+      "publish": true,
+      "label": "vek280_es_revb_10g",
+      "board": "VEK280 ES Rev-B",
+      "link": "https://www.xilinx.com/vek280",
+      "url": "xilinx.com",
+      "boardname": "vek280_es_revb",
+      "lanes": [0,1,2,3,4,5,6,7],
+      "linkspeed": "10",
+      "connector": "FMCP",
+      "group": "versal",
+      "petalinux": false,
+      "baremetal": false,
+      "license": true,
+      "flashsize": "0",
+      "flashintf": "0"
+    },
+    {
+      "publish": true,
+      "label": "vek280_es_revb_16g",
+      "board": "VEK280 ES Rev-B",
+      "link": "https://www.xilinx.com/vek280",
+      "url": "xilinx.com",
+      "boardname": "vek280_es_revb",
+      "lanes": [0,1,2,3,4,5,6,7],
+      "linkspeed": "16",
+      "connector": "FMCP",
+      "group": "versal",
+      "petalinux": false,
+      "baremetal": false,
+      "license": true,
+      "flashsize": "0",
+      "flashintf": "0"
+    },
+    {
+      "publish": true,
+      "label": "vek280_es_revb_32g",
+      "board": "VEK280 ES Rev-B",
+      "link": "https://www.xilinx.com/vek280",
+      "url": "xilinx.com",
+      "boardname": "vek280_es_revb",
+      "lanes": [0,1,2,3,4,5,6,7],
+      "linkspeed": "32",
+      "connector": "FMCP",
+      "group": "versal",
+      "petalinux": false,
+      "baremetal": false,
+      "license": true,
+      "flashsize": "0",
+      "flashintf": "0"
+    }
+  ]
+}
