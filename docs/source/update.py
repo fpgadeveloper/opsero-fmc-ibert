@@ -29,16 +29,16 @@ def create_tables(data):
     for linkspeed in linkspeeds:
         tables.append('### {}G designs'.format(linkspeed))
         tables.append('')
-        tables.append('| Target board          | Target design        | Link speed | GT lanes    | FMC Slot    | Vivado<br> Edition |')
-        tables.append('|-----------------------|----------------------|------------|-------------|-------------|-------|')
+        tables.append('| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |')
+        tables.append('|-----------------------|----------------------|------------------------------|-------------|-------------|-------|')
         for design in data['designs']:
             if not design['publish']:
                 continue
             if design['linkspeed'] == linkspeed:
                 cols = []
                 cols.append('[{0}]'.format(design['board']).ljust(21))
-                cols.append('`{0}`'.format(design['label']).ljust(20))
-                cols.append('{0}G'.format(design['linkspeed']).ljust(10))
+                cols.append('{0}'.format('<br>'.join(design['fmcs'])).ljust(20))
+                cols.append('`{0}`'.format(design['label']).ljust(28))
                 ports = '{}x'.format(len(design['lanes']))
                 cols.append('{0}'.format(ports).ljust(11))
                 cols.append('{0}'.format(design['connector']).ljust(11))
@@ -140,8 +140,8 @@ def get_vivado_build_targets(data):
             for lane in design['lanes']:
                 lanes += ' ' + str(lane)
             lanes += ' }'
-            target = 'dict set target_dict {} {{ {} {} {} {} "{}" }}'.format(design['label'],design['url'],design['boardname'],
-                template,lanes,design['linkspeed'])
+            target = 'dict set target_dict {} {{ {} {} {} {} {} "{}" }}'.format(design['label'],design['url'],design['boardname'],
+                template,design['fmcs'][0].lower(),lanes,design['linkspeed'])
             targets.append(target)
     return(targets)
 
@@ -222,7 +222,7 @@ def check_constraints(data):
             print('WARNING: No constraints file found for target',design['boardname'])
 
 # Possible link speeds
-linkspeeds = ['10','16','32']
+linkspeeds = ['10','16','28','32']
 
 # Read the JSON data
 data = load_json()

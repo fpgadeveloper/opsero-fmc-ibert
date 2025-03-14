@@ -12,3 +12,4 @@ create_clock -period 10.0 [get_ports bridge_refclkGTYP_REFCLK_X1Y8_diff_gt_ref_c
 
 
 set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
+

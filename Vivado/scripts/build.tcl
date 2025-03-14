@@ -36,11 +36,15 @@ set_param board.repoPaths [get_property LOCAL_ROOT_DIR [xhub::get_xstores xilinx
 # Possible targets
 # UPDATER START
 # 10G designs
-dict set target_dict vek280_es_revb_10g { xilinx.com vek280_es_revb versal { 0 1 2 3 4 5 6 7 } "10" }
+dict set target_dict vek280_es_revb_op063_10g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "10" }
+dict set target_dict vek280_es_revb_op081_10g { xilinx.com vek280_es_revb versal op081 { 0 1 2 3 4 5 6 7 } "10" }
 # 16G designs
-dict set target_dict vek280_es_revb_16g { xilinx.com vek280_es_revb versal { 0 1 2 3 4 5 6 7 } "16" }
+dict set target_dict vek280_es_revb_op063_16g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "16" }
+# 28G designs
+dict set target_dict vek280_es_revb_op063_28g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "28" }
+dict set target_dict vek280_es_revb_op081_28g { xilinx.com vek280_es_revb versal op081 { 0 1 2 3 4 5 6 7 } "28" }
 # 32G designs
-dict set target_dict vek280_es_revb_32g { xilinx.com vek280_es_revb versal { 0 1 2 3 4 5 6 7 } "32" }
+dict set target_dict vek280_es_revb_op063_32g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "32" }
 # UPDATER END
 
 # Function to display the options and get user input
@@ -124,9 +128,13 @@ if { $proj_board == "" } {
 }
 
 set fpga_part [get_property PART_NAME [get_board_parts $proj_board]]
-set bd_script [lindex [dict get $target_dict $target] 2]
-set ports [lindex [dict get $target_dict $target] 3]
-set line_rate [lindex [dict get $target_dict $target] 4]
+set device_family [lindex [dict get $target_dict $target] 2]
+set fmc_pn [lindex [dict get $target_dict $target] 3]
+set ports [lindex [dict get $target_dict $target] 4]
+set line_rate [lindex [dict get $target_dict $target] 5]
+
+# Set the bd script name
+set bd_script ${board_name}_${line_rate}g
 
 # Set the reference directory for source file relative paths (by default the value is script directory path)
 set origin_dir "."
@@ -169,6 +177,14 @@ set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
 set_property "file_type" "XDC" $file_obj
 
+# Add/Import constrs file and set constrs file properties
+set file "[file normalize "$origin_dir/src/constraints/${board_name}_${fmc_pn}.xdc"]"
+set file_added [add_files -norecurse -fileset $obj $file]
+set file "$origin_dir/src/constraints/${board_name}_${fmc_pn}.xdc"
+set file [file normalize $file]
+set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
+set_property "file_type" "XDC" $file_obj
+
 # Set 'constrs_1' fileset properties
 set obj [get_filesets constrs_1]
 set_property "target_constrs_file" "[file normalize "$origin_dir/src/constraints/${board_name}.xdc"]" $obj
@@ -206,7 +222,7 @@ if {[string equal [get_runs -quiet impl_1] ""]} {
   set_property flow "Vivado Implementation 2024" [get_runs impl_1]
 }
 set obj [get_runs impl_1]
-if {$bd_script == "versal"} {
+if {$device_family == "versal"} {
   set_property -name "steps.write_device_image.args.readback_file" -value "0" -objects $obj
   set_property -name "steps.write_device_image.args.verbose" -value "0" -objects $obj
 } else {
@@ -220,7 +236,10 @@ current_run -implementation [get_runs impl_1]
 puts "INFO: Project created:${design_name}"
 
 # Create block design
-source $origin_dir/src/bd/bd_${design_name}.tcl
+source $origin_dir/src/bd/bd_${bd_script}.tcl
+
+# Add extra required logic to block design
+source $origin_dir/src/bd/bd_${fmc_pn}.tcl
 
 # Auto generated bd script (run above) changes design_name, so we change it back here
 set design_name ${target}

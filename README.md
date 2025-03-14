@@ -2,7 +2,9 @@
 
 ## Description
 
-These projects can be used to test several Opsero FMCs in loopback using IBERT.
+These projects can be used to test several Opsero FMCs in loopback using IBERT. We use these
+projects internally for development and test purposes, but feel free to use them to build your
+own similar test setups.
 
 ## Requirements
 
@@ -18,10 +20,11 @@ In order to test this design on hardware, you will need the following:
 
 ## FMC Cards
 
-These projects can be used with the following Opsero products:
+Currently this project supports the following Opsero products:
 
 * [FPGA Drive FMC Gen4] (PN: OP063) with 2x [M.2 loopback] (PN: OP157)
 * [M.2 M-key Stack FMC] (PN: OP073) with 2x [M.2 loopback] (PN: OP157)
+* [Quad SFP28 FMC] (PN: OP081) with either active or passive loopbacks
 
 They can also be used with the following FMC products from other vendors:
 
@@ -37,21 +40,29 @@ require a license to generate a bitstream with the AMD Xilinx tools.
 <!-- updater start -->
 ### 10G designs
 
-| Target board          | Target design        | Link speed | GT lanes    | FMC Slot    | Vivado<br> Edition |
-|-----------------------|----------------------|------------|-------------|-------------|-------|
-| [VEK280 ES Rev-B]     | `vek280_es_revb_10g` | 10G        | 8x          | FMCP        | Enterprise |
+| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
+|-----------------------|----------------------|------------------------------|-------------|-------------|-------|
+| [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_10g`   | 8x          | FMCP        | Enterprise |
+| [VEK280 ES Rev-B]     | OP081                | `vek280_es_revb_op081_10g`   | 8x          | FMCP        | Enterprise |
 
 ### 16G designs
 
-| Target board          | Target design        | Link speed | GT lanes    | FMC Slot    | Vivado<br> Edition |
-|-----------------------|----------------------|------------|-------------|-------------|-------|
-| [VEK280 ES Rev-B]     | `vek280_es_revb_16g` | 16G        | 8x          | FMCP        | Enterprise |
+| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
+|-----------------------|----------------------|------------------------------|-------------|-------------|-------|
+| [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_16g`   | 8x          | FMCP        | Enterprise |
+
+### 28G designs
+
+| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
+|-----------------------|----------------------|------------------------------|-------------|-------------|-------|
+| [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_28g`   | 8x          | FMCP        | Enterprise |
+| [VEK280 ES Rev-B]     | OP081                | `vek280_es_revb_op081_28g`   | 8x          | FMCP        | Enterprise |
 
 ### 32G designs
 
-| Target board          | Target design        | Link speed | GT lanes    | FMC Slot    | Vivado<br> Edition |
-|-----------------------|----------------------|------------|-------------|-------------|-------|
-| [VEK280 ES Rev-B]     | `vek280_es_revb_32g` | 32G        | 8x          | FMCP        | Enterprise |
+| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
+|-----------------------|----------------------|------------------------------|-------------|-------------|-------|
+| [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_32g`   | 8x          | FMCP        | Enterprise |
 
 ### GT Settings
 
@@ -86,11 +97,11 @@ Source Vivado tool:
 source <path-to-vivado>/2024.1/settings64.sh
 ```
 
-To build the IBERT project:
+To build the 10G IBERT project for [VEK280 ES Rev-B] and OP081:
 
 ```
 cd opsero-fmc-ibert/Vivado
-make xsa TARGET=vek280_es_revb_10g
+make xsa TARGET=vek280_es_revb_op081_10g
 ```
 
 Replace the target label in these commands with the one corresponding to the target design of your
@@ -116,3 +127,4 @@ updates on the awesome projects we work on.
 [M.2 M-key Stack FMC]: https://www.fpgadrive.com/docs/m2-mkey-stack-fmc/overview/
 [M.2 loopback]: https://opsero.com/product/m-2-loopback-2230-mkey/
 [FMC XM107 Loopback card]: https://docs.amd.com/v/u/en-US/ug539
+[Quad SFP28 FMC]: https://ethernetfmc.com/docs/quad-sfp28-fmc/overview/

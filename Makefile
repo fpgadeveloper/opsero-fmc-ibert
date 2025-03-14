@@ -14,11 +14,15 @@ JOBS ?= 8
 # valid targets (template name, both (plnx+baremetal) or baremetal_only)
 # UPDATER START
 # 10G designs
-vek280_es_revb_10g_target := versal baremetal_only
+vek280_es_revb_op063_10g_target := versal baremetal_only
+vek280_es_revb_op081_10g_target := versal baremetal_only
 # 16G designs
-vek280_es_revb_16g_target := versal baremetal_only
+vek280_es_revb_op063_16g_target := versal baremetal_only
+# 28G designs
+vek280_es_revb_op063_28g_target := versal baremetal_only
+vek280_es_revb_op081_28g_target := versal baremetal_only
 # 32G designs
-vek280_es_revb_32g_target := versal baremetal_only
+vek280_es_revb_op063_32g_target := versal baremetal_only
 # UPDATER END
 
 TARGET_LIST := $(sort $(patsubst %_target,%,$(filter %_target,$(.VARIABLES))))

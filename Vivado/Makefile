@@ -16,9 +16,12 @@ JOBS ?= 8
 
 # valid targets
 # UPDATER START
-vek280_es_revb_10g_target := 0
-vek280_es_revb_16g_target := 0
-vek280_es_revb_32g_target := 0
+vek280_es_revb_op063_10g_target := 0
+vek280_es_revb_op063_16g_target := 0
+vek280_es_revb_op063_28g_target := 0
+vek280_es_revb_op063_32g_target := 0
+vek280_es_revb_op081_10g_target := 0
+vek280_es_revb_op081_28g_target := 0
 # UPDATER END
 
 TARGET_LIST := $(sort $(patsubst %_target,%,$(filter %_target,$(.VARIABLES))))
