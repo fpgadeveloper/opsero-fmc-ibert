@@ -7,7 +7,7 @@ MKDIR = mkdir -p
 RM = rm -rf
 ROOT_DIR = $(shell pwd)
 VIVADO = $(XILINX_VIVADO)/bin/vivado
-BD_NAME = ibert
+BD_NAME = versal_ibert
 
 # defaults
 .DEFAULT_GOAL := xsa
@@ -22,6 +22,8 @@ vek280_es_revb_op063_28g_target := 0
 vek280_es_revb_op063_32g_target := 0
 vek280_es_revb_op081_10g_target := 0
 vek280_es_revb_op081_28g_target := 0
+vek280_es_revb_op100_16g_target := 0
+vek280_es_revb_op100_32g_target := 0
 # UPDATER END
 
 TARGET_LIST := $(sort $(patsubst %_target,%,$(filter %_target,$(.VARIABLES))))

@@ -40,11 +40,13 @@ dict set target_dict vek280_es_revb_op063_10g { xilinx.com vek280_es_revb versal
 dict set target_dict vek280_es_revb_op081_10g { xilinx.com vek280_es_revb versal op081 { 0 1 2 3 4 5 6 7 } "10" }
 # 16G designs
 dict set target_dict vek280_es_revb_op063_16g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "16" }
+dict set target_dict vek280_es_revb_op100_16g { xilinx.com vek280_es_revb versal op100 { 0 1 2 3 4 5 6 7 } "16" }
 # 28G designs
 dict set target_dict vek280_es_revb_op063_28g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "28" }
 dict set target_dict vek280_es_revb_op081_28g { xilinx.com vek280_es_revb versal op081 { 0 1 2 3 4 5 6 7 } "28" }
 # 32G designs
 dict set target_dict vek280_es_revb_op063_32g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "32" }
+dict set target_dict vek280_es_revb_op100_32g { xilinx.com vek280_es_revb versal op100 { 0 1 2 3 4 5 6 7 } "32" }
 # UPDATER END
 
 # Function to display the options and get user input

@@ -140,6 +140,42 @@
       "license": true,
       "flashsize": "0",
       "flashintf": "0"
+    },
+    {
+      "publish": true,
+      "label": "vek280_es_revb_op100_16g",
+      "board": "VEK280 ES Rev-B",
+      "link": "https://www.xilinx.com/vek280",
+      "url": "xilinx.com",
+      "boardname": "vek280_es_revb",
+      "fmcs": ["OP100"],
+      "lanes": [0,1,2,3,4,5,6,7],
+      "linkspeed": "16",
+      "connector": "FMCP",
+      "group": "versal",
+      "petalinux": false,
+      "baremetal": true,
+      "license": true,
+      "flashsize": "0",
+      "flashintf": "0"
+    },
+    {
+      "publish": true,
+      "label": "vek280_es_revb_op100_32g",
+      "board": "VEK280 ES Rev-B",
+      "link": "https://www.xilinx.com/vek280",
+      "url": "xilinx.com",
+      "boardname": "vek280_es_revb",
+      "fmcs": ["OP100"],
+      "lanes": [0,1,2,3,4,5,6,7],
+      "linkspeed": "32",
+      "connector": "FMCP",
+      "group": "versal",
+      "petalinux": false,
+      "baremetal": true,
+      "license": true,
+      "flashsize": "0",
+      "flashintf": "0"
     }
   ]
 }

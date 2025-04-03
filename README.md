@@ -25,6 +25,7 @@ Currently this project supports the following Opsero products:
 * [FPGA Drive FMC Gen4] (PN: OP063) with 2x [M.2 loopback] (PN: OP157)
 * [M.2 M-key Stack FMC] (PN: OP073) with 2x [M.2 loopback] (PN: OP157)
 * [Quad SFP28 FMC] (PN: OP081) with either active or passive loopbacks
+* [MCIO PCIe Host FMC] (PN: OP100) with passive loopbacks
 
 They can also be used with the following FMC products from other vendors:
 
@@ -50,6 +51,7 @@ require a license to generate a bitstream with the AMD Xilinx tools.
 | Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
 |-----------------------|----------------------|------------------------------|-------------|-------------|-------|
 | [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_16g`   | 8x          | FMCP        | Enterprise |
+| [VEK280 ES Rev-B]     | OP100                | `vek280_es_revb_op100_16g`   | 8x          | FMCP        | Enterprise |
 
 ### 28G designs
 
@@ -63,6 +65,7 @@ require a license to generate a bitstream with the AMD Xilinx tools.
 | Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
 |-----------------------|----------------------|------------------------------|-------------|-------------|-------|
 | [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_32g`   | 8x          | FMCP        | Enterprise |
+| [VEK280 ES Rev-B]     | OP100                | `vek280_es_revb_op100_32g`   | 8x          | FMCP        | Enterprise |
 
 ### GT Settings
 
@@ -107,6 +110,26 @@ make xsa TARGET=vek280_es_revb_op081_10g
 Replace the target label in these commands with the one corresponding to the target design of your
 choice from the tables above.
 
+## MCIO PCIe Host FMC
+
+The project for the [MCIO PCIe Host FMC] contains a bare-metal application that can be used to dynamically
+adjust the equalizer settings of the transmit and receive redrivers ([TI DS320PR810]). To use the application,
+you need to open up a UART terminal and follow the menu options.
+
+There are two ways to launch the application:
+
+1. Boot from SD card with a UART terminal open. Use Vivado Hardware Manager to interact with the IBERT core.
+2. Boot from JTAG using Vitis with a UART terminal open. Then close Vitis and open Vivado Hardware Manager to 
+   interact with the IBERT core. Note that if you leave Vitis open, it will not release the JTAG and you may 
+   have issues in Vivado Hardware Manager.
+
+The CTLE index is the main equalizer setting, providing high-frequency boost and low-frequency attenuation to 
+equalize the frequency-dependent insertion loss of the PCB traces and cables being used. It's value can be set
+from 0 to 19.
+
+The flat gain is the overall data-path DC and AC gain. This can be set to -6dB, -4dB, -2dB, 0dB or 2dB. The 
+default is 0dB and this is the recommended flat gain for most systems.
+
 ## Contribute
 
 We strongly encourage community contribution to these projects. Please make a pull request if you
@@ -128,3 +151,5 @@ updates on the awesome projects we work on.
 [M.2 loopback]: https://opsero.com/product/m-2-loopback-2230-mkey/
 [FMC XM107 Loopback card]: https://docs.amd.com/v/u/en-US/ug539
 [Quad SFP28 FMC]: https://ethernetfmc.com/docs/quad-sfp28-fmc/overview/
+[MCIO PCIe Host FMC]: https://opsero.com/product/mcio-pcie-host-fmc
+[TI DS320PR810]: https://www.ti.com/product/DS320PR810
