@@ -26,6 +26,7 @@ Currently this project supports the following Opsero products:
 * [M.2 M-key Stack FMC] (PN: OP073) with 2x [M.2 loopback] (PN: OP157)
 * [Quad SFP28 FMC] (PN: OP081) with either active or passive loopbacks
 * [MCIO PCIe Host FMC] (PN: OP100) with passive loopbacks
+* [2x QSFP28 FMC] (PN: OP120) with either active or passive loopbacks
 
 They can also be used with the following FMC products from other vendors:
 
@@ -155,3 +156,4 @@ updates on the awesome projects we work on.
 [Quad SFP28 FMC]: https://ethernetfmc.com/docs/quad-sfp28-fmc/overview/
 [MCIO PCIe Host FMC]: https://opsero.com/product/mcio-pcie-host-fmc
 [TI DS320PR810]: https://www.ti.com/product/DS320PR810
+[2x QSFP28 FMC]: https://opsero.com/product/2x-qsfp28-fmc
