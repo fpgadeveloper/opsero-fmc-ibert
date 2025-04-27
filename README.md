@@ -45,6 +45,7 @@ require a license to generate a bitstream with the AMD Xilinx tools.
 |-----------------------|----------------------|------------------------------|-------------|-------------|-------|
 | [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_10g`   | 8x          | FMCP        | Enterprise |
 | [VEK280 ES Rev-B]     | OP081                | `vek280_es_revb_op081_10g`   | 8x          | FMCP        | Enterprise |
+| [VEK280 ES Rev-B]     | OP120                | `vek280_es_revb_op120_10g`   | 8x          | FMCP        | Enterprise |
 
 ### 16G designs
 
@@ -59,6 +60,7 @@ require a license to generate a bitstream with the AMD Xilinx tools.
 |-----------------------|----------------------|------------------------------|-------------|-------------|-------|
 | [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_28g`   | 8x          | FMCP        | Enterprise |
 | [VEK280 ES Rev-B]     | OP081                | `vek280_es_revb_op081_28g`   | 8x          | FMCP        | Enterprise |
+| [VEK280 ES Rev-B]     | OP120                | `vek280_es_revb_op120_28g`   | 8x          | FMCP        | Enterprise |
 
 ### 32G designs
 

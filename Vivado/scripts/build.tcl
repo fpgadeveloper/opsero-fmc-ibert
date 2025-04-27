@@ -38,12 +38,14 @@ set_param board.repoPaths [get_property LOCAL_ROOT_DIR [xhub::get_xstores xilinx
 # 10G designs
 dict set target_dict vek280_es_revb_op063_10g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "10" }
 dict set target_dict vek280_es_revb_op081_10g { xilinx.com vek280_es_revb versal op081 { 0 1 2 3 4 5 6 7 } "10" }
+dict set target_dict vek280_es_revb_op120_10g { xilinx.com vek280_es_revb versal op120 { 0 1 2 3 4 5 6 7 } "10" }
 # 16G designs
 dict set target_dict vek280_es_revb_op063_16g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "16" }
 dict set target_dict vek280_es_revb_op100_16g { xilinx.com vek280_es_revb versal op100 { 0 1 2 3 4 5 6 7 } "16" }
 # 28G designs
 dict set target_dict vek280_es_revb_op063_28g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "28" }
 dict set target_dict vek280_es_revb_op081_28g { xilinx.com vek280_es_revb versal op081 { 0 1 2 3 4 5 6 7 } "28" }
+dict set target_dict vek280_es_revb_op120_28g { xilinx.com vek280_es_revb versal op120 { 0 1 2 3 4 5 6 7 } "28" }
 # 32G designs
 dict set target_dict vek280_es_revb_op063_32g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "32" }
 dict set target_dict vek280_es_revb_op100_32g { xilinx.com vek280_es_revb versal op100 { 0 1 2 3 4 5 6 7 } "32" }
