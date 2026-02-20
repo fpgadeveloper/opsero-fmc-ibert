@@ -191,8 +191,6 @@ def get_ignore_paths(data):
     for design in data['designs']:
         p = 'Vivado/{}/'.format(design['label'])
         paths.append(p)
-        p = 'PetaLinux/{}/'.format(design['label'])
-        paths.append(p)
     return(paths)
 
 
@@ -226,7 +224,7 @@ def update_file(file_path,targets):
 # Make sure that there is a constraints file for all target designs
 def check_constraints(data):
     for design in data['designs']:
-        filename = '../../Vivado/src/constraints/{}.xdc'.format(design['boardname'])
+        filename = '../../Vivado/src/constraints/{}.xdc'.format("_".join(design['label'].split("_")[:-2]))
         if not os.path.isfile(filename):
             print('WARNING: No constraints file found for target',design['boardname'])
 

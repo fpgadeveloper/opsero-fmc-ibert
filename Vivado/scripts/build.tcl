@@ -1,4 +1,4 @@
-# Opsero Electronic Design Inc. Copyright 2024
+# Opsero Electronic Design Inc. Copyright 2025
 #
 # Project build script
 #
@@ -17,8 +17,8 @@
 #*****************************************************************************************
 
 # Check the version of Vivado used
-set version_required "2024.1"
-set ver [lindex [split $::env(XILINX_VIVADO) /] end]
+set version_required "2025.2"
+set ver [lindex [split $::env(XILINX_VIVADO) /] end-1]
 if {![string equal $ver $version_required]} {
   puts "###############################"
   puts "### Failed to build project ###"
@@ -36,19 +36,27 @@ set_param board.repoPaths [get_property LOCAL_ROOT_DIR [xhub::get_xstores xilinx
 # Possible targets
 # UPDATER START
 # 10G designs
-dict set target_dict vek280_es_revb_op063_10g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "10" }
-dict set target_dict vek280_es_revb_op081_10g { xilinx.com vek280_es_revb versal op081 { 0 1 2 3 4 5 6 7 } "10" }
-dict set target_dict vek280_es_revb_op120_10g { xilinx.com vek280_es_revb versal op120 { 0 1 2 3 4 5 6 7 } "10" }
+dict set target_dict vek280_op063_10g { xilinx.com vek280 versal op063 { 0 1 2 3 4 5 6 7 } "10" }
+dict set target_dict vek280_op081_10g { xilinx.com vek280 versal op081 { 0 1 2 3 4 5 6 7 } "10" }
+dict set target_dict vek280_op120_10g { xilinx.com vek280 versal op120 { 0 1 2 3 4 5 6 7 } "10" }
+dict set target_dict vck190_fmcp1_op063_10g { xilinx.com vck190 versal op063 { 0 1 2 3 4 5 6 7 } "10" }
+dict set target_dict vck190_fmcp1_op081_10g { xilinx.com vck190 versal op081 { 0 1 2 3 4 5 6 7 } "10" }
+dict set target_dict vck190_fmcp1_op120_10g { xilinx.com vck190 versal op120 { 0 1 2 3 4 5 6 7 } "10" }
 # 16G designs
-dict set target_dict vek280_es_revb_op063_16g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "16" }
-dict set target_dict vek280_es_revb_op100_16g { xilinx.com vek280_es_revb versal op100 { 0 1 2 3 4 5 6 7 } "16" }
+dict set target_dict vek280_op063_16g { xilinx.com vek280 versal op063 { 0 1 2 3 4 5 6 7 } "16" }
+dict set target_dict vek280_op100_16g { xilinx.com vek280 versal op100 { 0 1 2 3 4 5 6 7 } "16" }
+dict set target_dict vck190_fmcp1_op063_16g { xilinx.com vck190 versal op063 { 0 1 2 3 4 5 6 7 } "16" }
+dict set target_dict vck190_fmcp1_op100_16g { xilinx.com vck190 versal op100 { 0 1 2 3 4 5 6 7 } "16" }
 # 28G designs
-dict set target_dict vek280_es_revb_op063_28g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "28" }
-dict set target_dict vek280_es_revb_op081_28g { xilinx.com vek280_es_revb versal op081 { 0 1 2 3 4 5 6 7 } "28" }
-dict set target_dict vek280_es_revb_op120_28g { xilinx.com vek280_es_revb versal op120 { 0 1 2 3 4 5 6 7 } "28" }
+dict set target_dict vek280_op063_28g { xilinx.com vek280 versal op063 { 0 1 2 3 4 5 6 7 } "28" }
+dict set target_dict vek280_op081_28g { xilinx.com vek280 versal op081 { 0 1 2 3 4 5 6 7 } "28" }
+dict set target_dict vek280_op120_28g { xilinx.com vek280 versal op120 { 0 1 2 3 4 5 6 7 } "28" }
+dict set target_dict vck190_fmcp1_op063_28g { xilinx.com vck190 versal op063 { 0 1 2 3 4 5 6 7 } "28" }
+dict set target_dict vck190_fmcp1_op081_28g { xilinx.com vck190 versal op081 { 0 1 2 3 4 5 6 7 } "28" }
+dict set target_dict vck190_fmcp1_op120_28g { xilinx.com vck190 versal op120 { 0 1 2 3 4 5 6 7 } "28" }
 # 32G designs
-dict set target_dict vek280_es_revb_op063_32g { xilinx.com vek280_es_revb versal op063 { 0 1 2 3 4 5 6 7 } "32" }
-dict set target_dict vek280_es_revb_op100_32g { xilinx.com vek280_es_revb versal op100 { 0 1 2 3 4 5 6 7 } "32" }
+dict set target_dict vek280_op063_32g { xilinx.com vek280 versal op063 { 0 1 2 3 4 5 6 7 } "32" }
+dict set target_dict vek280_op100_32g { xilinx.com vek280 versal op100 { 0 1 2 3 4 5 6 7 } "32" }
 # UPDATER END
 
 # Function to display the options and get user input
@@ -137,8 +145,11 @@ set fmc_pn [lindex [dict get $target_dict $target] 3]
 set ports [lindex [dict get $target_dict $target] 4]
 set line_rate [lindex [dict get $target_dict $target] 5]
 
+# Get the board name including fmc label by removing product code and line rate from target label
+set board_name_w_fmc [join [lrange [split $target "_"] 0 end-2] "_"]
+
 # Set the bd script name
-set bd_script ${board_name}_${line_rate}g
+set bd_script ${board_name_w_fmc}_${line_rate}g
 
 # Set the reference directory for source file relative paths (by default the value is script directory path)
 set origin_dir "."
@@ -174,24 +185,24 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 set obj [get_filesets constrs_1]
 
 # Add/Import constrs file and set constrs file properties
-set file "[file normalize "$origin_dir/src/constraints/${board_name}.xdc"]"
+set file "[file normalize "$origin_dir/src/constraints/${board_name_w_fmc}.xdc"]"
 set file_added [add_files -norecurse -fileset $obj $file]
-set file "$origin_dir/src/constraints/${board_name}.xdc"
+set file "$origin_dir/src/constraints/${board_name_w_fmc}.xdc"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
 set_property "file_type" "XDC" $file_obj
 
 # Add/Import constrs file and set constrs file properties
-set file "[file normalize "$origin_dir/src/constraints/${board_name}_${fmc_pn}.xdc"]"
+set file "[file normalize "$origin_dir/src/constraints/${board_name_w_fmc}_${fmc_pn}.xdc"]"
 set file_added [add_files -norecurse -fileset $obj $file]
-set file "$origin_dir/src/constraints/${board_name}_${fmc_pn}.xdc"
+set file "$origin_dir/src/constraints/${board_name_w_fmc}_${fmc_pn}.xdc"
 set file [file normalize $file]
 set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$file"]]
 set_property "file_type" "XDC" $file_obj
 
 # Set 'constrs_1' fileset properties
 set obj [get_filesets constrs_1]
-set_property "target_constrs_file" "[file normalize "$origin_dir/src/constraints/${board_name}.xdc"]" $obj
+set_property "target_constrs_file" "[file normalize "$origin_dir/src/constraints/${board_name_w_fmc}.xdc"]" $obj
 
 # Create 'sim_1' fileset (if not found)
 if {[string equal [get_filesets -quiet sim_1] ""]} {
@@ -208,10 +219,10 @@ set_property -name "top" -value "${block_name}_wrapper" -objects $obj
 
 # Create 'synth_1' run (if not found)
 if {[string equal [get_runs -quiet synth_1] ""]} {
-  create_run -name synth_1 -part ${fpga_part} -flow {Vivado Synthesis 2024} -strategy "Vivado Synthesis Defaults" -report_strategy {No Reports} -constrset constrs_1
+  create_run -name synth_1 -part ${fpga_part} -flow {Vivado Synthesis 2025} -strategy "Vivado Synthesis Defaults" -report_strategy {No Reports} -constrset constrs_1
 } else {
   set_property strategy "Vivado Synthesis Defaults" [get_runs synth_1]
-  set_property flow "Vivado Synthesis 2024" [get_runs synth_1]
+  set_property flow "Vivado Synthesis 2025" [get_runs synth_1]
 }
 set obj [get_runs synth_1]
 
@@ -220,10 +231,10 @@ current_run -synthesis [get_runs synth_1]
 
 # Create 'impl_1' run (if not found)
 if {[string equal [get_runs -quiet impl_1] ""]} {
-  create_run -name impl_1 -part ${fpga_part} -flow {Vivado Implementation 2024} -strategy "Vivado Implementation Defaults" -report_strategy {No Reports} -constrset constrs_1 -parent_run synth_1
+  create_run -name impl_1 -part ${fpga_part} -flow {Vivado Implementation 2025} -strategy "Vivado Implementation Defaults" -report_strategy {No Reports} -constrset constrs_1 -parent_run synth_1
 } else {
   set_property strategy "Vivado Implementation Defaults" [get_runs impl_1]
-  set_property flow "Vivado Implementation 2024" [get_runs impl_1]
+  set_property flow "Vivado Implementation 2025" [get_runs impl_1]
 }
 set obj [get_runs impl_1]
 if {$device_family == "versal"} {
@@ -240,10 +251,28 @@ current_run -implementation [get_runs impl_1]
 puts "INFO: Project created:${design_name}"
 
 # Create block design
-source $origin_dir/src/bd/bd_${bd_script}.tcl
-
-# Add extra required logic to block design
-source $origin_dir/src/bd/bd_${fmc_pn}.tcl
+set bd_script_path "$origin_dir/src/bd/bd_${bd_script}.tcl"
+set fmc_pn_path "$origin_dir/src/bd/bd_${fmc_pn}.tcl"
+if {![file exists $bd_script_path]} {
+    puts "ERROR: Block design script not found: $bd_script_path"
+    close_project
+    return
+}
+if {![file exists $fmc_pn_path]} {
+    puts "ERROR: FMC part number script not found: $fmc_pn_path"
+    close_project
+    return
+}
+if {[catch {
+    source $bd_script_path
+    # Add extra required logic to block design
+    source $fmc_pn_path
+} errmsg]} {
+    puts "ERROR: Block design creation failed: $errmsg"
+    catch {save_bd_design}
+    close_project
+    return
+}
 
 # Auto generated bd script (run above) changes design_name, so we change it back here
 set design_name ${target}

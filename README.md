@@ -8,14 +8,14 @@ own similar test setups.
 
 ## Requirements
 
-This project is designed for version 2024.1 of the Xilinx tools (Vivado/Vitis/PetaLinux). 
+This project is designed for version 2025.2 of the Xilinx tools (Vivado/Vitis/PetaLinux). 
 If you are using an older version of the Xilinx tools, then refer to the 
 [release tags](https://github.com/fpgadeveloper/opsero-fmc-ibert/tags "releases")
 to find the version of this repository that matches your version of the tools.
 
 In order to test this design on hardware, you will need the following:
 
-* Vivado 2024.1
+* Vivado 2025.2
 * One of the target platforms listed below
 
 ## FMC Cards
@@ -44,31 +44,39 @@ require a license to generate a bitstream with the AMD Xilinx tools.
 
 | Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
 |-----------------------|----------------------|------------------------------|-------------|-------------|-------|
-| [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_10g`   | 8x          | FMCP        | Enterprise |
-| [VEK280 ES Rev-B]     | OP081                | `vek280_es_revb_op081_10g`   | 8x          | FMCP        | Enterprise |
-| [VEK280 ES Rev-B]     | OP120                | `vek280_es_revb_op120_10g`   | 8x          | FMCP        | Enterprise |
+| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_10g`           | 8x          | FMCP        | Enterprise |
+| [VEK280]              | OP081                | `vek280_op081_10g`           | 8x          | FMCP        | Enterprise |
+| [VEK280]              | OP120                | `vek280_op120_10g`           | 8x          | FMCP        | Enterprise |
+| [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_10g`     | 8x          | FMCP1       | Enterprise |
+| [VCK190]              | OP081                | `vck190_fmcp1_op081_10g`     | 8x          | FMCP1       | Enterprise |
+| [VCK190]              | OP120                | `vck190_fmcp1_op120_10g`     | 8x          | FMCP1       | Enterprise |
 
 ### 16G designs
 
 | Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
 |-----------------------|----------------------|------------------------------|-------------|-------------|-------|
-| [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_16g`   | 8x          | FMCP        | Enterprise |
-| [VEK280 ES Rev-B]     | OP100                | `vek280_es_revb_op100_16g`   | 8x          | FMCP        | Enterprise |
+| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_16g`           | 8x          | FMCP        | Enterprise |
+| [VEK280]              | OP100                | `vek280_op100_16g`           | 8x          | FMCP        | Enterprise |
+| [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_16g`     | 8x          | FMCP1       | Enterprise |
+| [VCK190]              | OP100                | `vck190_fmcp1_op100_16g`     | 8x          | FMCP1       | Enterprise |
 
 ### 28G designs
 
 | Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
 |-----------------------|----------------------|------------------------------|-------------|-------------|-------|
-| [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_28g`   | 8x          | FMCP        | Enterprise |
-| [VEK280 ES Rev-B]     | OP081                | `vek280_es_revb_op081_28g`   | 8x          | FMCP        | Enterprise |
-| [VEK280 ES Rev-B]     | OP120                | `vek280_es_revb_op120_28g`   | 8x          | FMCP        | Enterprise |
+| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_28g`           | 8x          | FMCP        | Enterprise |
+| [VEK280]              | OP081                | `vek280_op081_28g`           | 8x          | FMCP        | Enterprise |
+| [VEK280]              | OP120                | `vek280_op120_28g`           | 8x          | FMCP        | Enterprise |
+| [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_28g`     | 8x          | FMCP1       | Enterprise |
+| [VCK190]              | OP081                | `vck190_fmcp1_op081_28g`     | 8x          | FMCP1       | Enterprise |
+| [VCK190]              | OP120                | `vck190_fmcp1_op120_28g`     | 8x          | FMCP1       | Enterprise |
 
 ### 32G designs
 
 | Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
 |-----------------------|----------------------|------------------------------|-------------|-------------|-------|
-| [VEK280 ES Rev-B]     | OP063<br>OP073<br>XM107 | `vek280_es_revb_op063_32g`   | 8x          | FMCP        | Enterprise |
-| [VEK280 ES Rev-B]     | OP100                | `vek280_es_revb_op100_32g`   | 8x          | FMCP        | Enterprise |
+| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_32g`           | 8x          | FMCP        | Enterprise |
+| [VEK280]              | OP100                | `vek280_op100_32g`           | 8x          | FMCP        | Enterprise |
 
 ### GT Settings
 
@@ -78,10 +86,13 @@ eliminating the need for software-based configuration.
 
 | Target board          | Target part                       | FMC GT Lanes | GT Quad         | Ref Clk Source     | Ref Clk Freq (MHz) |
 |-----------------------|-----------------------------------|--------------|-----------------|--------------------|--------------|
-| [VEK280 ES Rev-B]     | `xcve2802-vsvh1760-2MP-e-S-es1`   | DP0-DP3      | `GTYP QUAD 205` | `GTYP REFCLK X1Y6` | 100        |
+| [VEK280]              | `xcve2802-vsvh1760-2MP-e-S`       | DP0-DP3      | `GTYP QUAD 205` | `GTYP REFCLK X1Y6` | 100        |
 |                       |                                   | DP4-DP7      | `GTYP QUAD 206` | `GTYP REFCLK X1Y8` | 100        |
+| [VCK190]              | `xcvc1902-vsva2197-2MP-e-S`       | DP0-DP3      | `GTY QUAD 201`  | `GTY REFCLK X1Y2`  | 100        |
+|                       |                                   | DP4-DP7      | `GTY QUAD 202`  | `GTY QUAD 201`     | 100        |
 
-[VEK280 ES Rev-B]: https://www.xilinx.com/vek280
+[VEK280]: https://www.xilinx.com/vek280
+[VCK190]: https://www.xilinx.com/vck190
 <!-- updater end -->
 
 Notes:
@@ -100,7 +111,7 @@ git clone https://github.com/fpgadeveloper/opsero-fmc-ibert.git
 Source Vivado tool:
 
 ```
-source <path-to-vivado>/2024.1/settings64.sh
+source <path-to-vivado>/2025.2/settings64.sh
 ```
 
 To build the 10G IBERT project for [VEK280 ES Rev-B] and OP081:

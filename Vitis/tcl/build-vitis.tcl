@@ -37,8 +37,9 @@ set mb_combine_bit_elf 1
 
 # Possible targets (board name in lower case for the board.h file)
 # UPDATER START
-dict set target_dict vek280_es_revb_op100_16g { vek280_es_revb }
-dict set target_dict vek280_es_revb_op100_32g { vek280_es_revb }
+dict set target_dict vek280_op100_16g { vek280 }
+dict set target_dict vek280_op100_32g { vek280 }
+dict set target_dict vck190_fmcp1_op100_16g { vck190 }
 # UPDATER END
 
 # ----------------------------------------------------------------------------------------------

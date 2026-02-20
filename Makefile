@@ -1,4 +1,4 @@
-# Opsero Electronic Design Inc. 2024
+# Opsero Electronic Design Inc. 2025
 #
 # This Makefile can be used to build all projects and gather the boot images.
 
@@ -14,19 +14,27 @@ JOBS ?= 8
 # valid targets (template name, both (plnx+baremetal) or baremetal_only)
 # UPDATER START
 # 10G designs
-vek280_es_revb_op063_10g_target := versal baremetal_only
-vek280_es_revb_op081_10g_target := versal baremetal_only
-vek280_es_revb_op120_10g_target := versal baremetal_only
+vek280_op063_10g_target := versal baremetal_only
+vek280_op081_10g_target := versal baremetal_only
+vek280_op120_10g_target := versal baremetal_only
+vck190_fmcp1_op063_10g_target := versal baremetal_only
+vck190_fmcp1_op081_10g_target := versal baremetal_only
+vck190_fmcp1_op120_10g_target := versal baremetal_only
 # 16G designs
-vek280_es_revb_op063_16g_target := versal baremetal_only
-vek280_es_revb_op100_16g_target := versal baremetal_only
+vek280_op063_16g_target := versal baremetal_only
+vek280_op100_16g_target := versal baremetal_only
+vck190_fmcp1_op063_16g_target := versal baremetal_only
+vck190_fmcp1_op100_16g_target := versal baremetal_only
 # 28G designs
-vek280_es_revb_op063_28g_target := versal baremetal_only
-vek280_es_revb_op081_28g_target := versal baremetal_only
-vek280_es_revb_op120_28g_target := versal baremetal_only
+vek280_op063_28g_target := versal baremetal_only
+vek280_op081_28g_target := versal baremetal_only
+vek280_op120_28g_target := versal baremetal_only
+vck190_fmcp1_op063_28g_target := versal baremetal_only
+vck190_fmcp1_op081_28g_target := versal baremetal_only
+vck190_fmcp1_op120_28g_target := versal baremetal_only
 # 32G designs
-vek280_es_revb_op063_32g_target := versal baremetal_only
-vek280_es_revb_op100_32g_target := versal baremetal_only
+vek280_op063_32g_target := versal baremetal_only
+vek280_op100_32g_target := versal baremetal_only
 # UPDATER END
 
 TARGET_LIST := $(sort $(patsubst %_target,%,$(filter %_target,$(.VARIABLES))))
@@ -59,8 +67,8 @@ VIT_BOOT_TARG = $(VIT_BOOT)/$(TARGET)
 # outputs
 BOOTIMAGE_DIR = $(ROOT_DIR)/bootimages
 TEMPBOOT_DIR = $(BOOTIMAGE_DIR)/$(BD_NAME)_$(TARGET)
-PETL_ZIP = $(BOOTIMAGE_DIR)/$(BD_NAME)_$(TARGET)_petalinux-2024-1.zip
-BARE_ZIP = $(BOOTIMAGE_DIR)/$(BD_NAME)_$(TARGET)_standalone-2024-1.zip
+PETL_ZIP = $(BOOTIMAGE_DIR)/$(BD_NAME)_$(TARGET)_petalinux-2025-2.zip
+BARE_ZIP = $(BOOTIMAGE_DIR)/$(BD_NAME)_$(TARGET)_standalone-2025-2.zip
 BOOTIMAGE_LOCK = $(ROOT_DIR)/.$(TARGET).lock
 
 # These macros return values from the valid target lists defined above
