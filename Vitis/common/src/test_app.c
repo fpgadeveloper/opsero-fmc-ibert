@@ -11,7 +11,6 @@
 #include "xil_printf.h"
 #include "xparameters.h"
 #include "xrtcpsu.h"    /* RTCPSU device driver */
-#include "xscugic.h"
 #include "xiicps.h"
 #include "i2c.h"
 #include "sleep.h"
@@ -20,8 +19,6 @@
 
 // Peripherals
 
-#define INTC_DEVICE_ID  XPAR_SCUGIC_SINGLE_DEVICE_ID
-
 // Redriver I2C addresses
 #define I2C_ADDR_RX_RDRV_CH_A 0x18
 #define I2C_ADDR_RX_RDRV_CH_B 0x19
@@ -29,8 +26,6 @@
 #define I2C_ADDR_TX_RDRV_CH_B 0x1B
 
 #define MAX_STR_LEN 32
-
-XScuGic Intc;  /* The instance of the Interrupt Controller. */
 
 u8 RdrvI2cId;
 XIicPs RdrvI2c; // I2C device for the redrivers
@@ -111,7 +106,6 @@ int set_eq_and_flat_gain(DS320PR810 *ds,int ctle_index,int flat_gain)
 
 int main()
 {
-	XScuGic_Config *IntcConfig;
 	int Status;
     char str[MAX_STR_LEN];
     int tx_ctle_index = 3;
@@ -124,31 +118,9 @@ int main()
 	setvbuf(stdin, NULL, _IONBF, 0);
 
 	/*
-	 * Initialize the interrupt controller
-	 * The init functions of the I2C driver will setup and
-	 * enable their respective interrupts later.
-	 */
-	IntcConfig = XScuGic_LookupConfig(INTC_DEVICE_ID);
-	if (NULL == IntcConfig) {
-		return XST_FAILURE;
-	}
-	Status = XScuGic_CfgInitialize(&Intc, IntcConfig, IntcConfig->CpuBaseAddress);
-	if (Status != XST_SUCCESS) {
-		return XST_FAILURE;
-	}
-	// Initialize exceptions
-	Xil_ExceptionInit();
-	Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_IRQ_INT,
-			(Xil_ExceptionHandler)XScuGic_DeviceInterruptHandler,
-			INTC_DEVICE_ID);
-	// Enable exceptions for interrupts
-	Xil_ExceptionEnableMask(XIL_EXCEPTION_IRQ);
-	Xil_ExceptionEnable();
-
-	/*
 	 * Initialize the IIC for communication with FMC
 	 */
-	Status = IicPsInit(&RdrvI2c,XPAR_VERSAL_CIPS_0_PSPMC_0_PSV_I2C_0_DEVICE_ID,&Intc,XPAR_XIICPS_0_INTR,&RdrvI2cId);
+	Status = IicPsInit(&RdrvI2c,XPAR_XIICPS_0_BASEADDR,&RdrvI2cId);
 	if (Status != XST_SUCCESS) {
 		xil_printf("Failed to initialize the RdrvI2c\n\r");
 		return XST_FAILURE;

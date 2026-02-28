@@ -1,5 +1,5 @@
 /*
- * Opsero Electronic Design Inc. Copyright 2024
+ * Opsero Electronic Design Inc. Copyright 2025
  *
  * A simple interrupt based driver for AXI IIC and PS IIC.
  * This driver allows device drivers to use the IIC bus without being
@@ -55,7 +55,7 @@ int IicReset(u8 index);
  * AXI IIC functions
  */
 #ifdef XPAR_XIIC_NUM_INSTANCES
-int IicAxiInit(XIic *IicInstance, u16 DeviceId, INTC_TYPE *Intc, u16 VectorId, u8 *Index);
+int IicAxiInit(XIic *IicInstance, UINTPTR BaseAddr, u8 *Index);
 int IicAxiWrite(u8 index, u8 addr,u8 *buf, u16 len);
 int IicAxiRead(u8 index, u8 addr, u8 *buf, u16 len);
 
@@ -68,7 +68,7 @@ void IicAxiStatusHandler(IicIntHandlerInfo *Info, int Event);
  * PS IIC functions
  */
 #ifdef XPAR_XIICPS_NUM_INSTANCES
-int IicPsInit(XIicPs *IicInstance, u16 DeviceId, INTC_TYPE *Intc, u16 VectorId, u8 *Index);
+int IicPsInit(XIicPs *IicInstance, UINTPTR BaseAddr, u8 *Index);
 void IicPsInterruptHandler(IicIntHandlerInfo *Info, u32 Event);
 int IicPsWrite(u8 index, u8 addr, u8 *buf,u16 len);
 int IicPsRead(u8 index, u8 addr, u8 *buf,u16 len);

@@ -1,10 +1,12 @@
 /* 
- * Opsero Electronic Design Inc. Copyright 2024
+ * Opsero Electronic Design Inc. Copyright 2025
  * 
 ******************************************************************************/
 
 #include "i2c.h"
 #include "xparameters.h"
+#include "xinterrupt_wrap.h"
+#include <xstatus.h>
 
 #ifdef XPAR_XIIC_NUM_INSTANCES
 #include "xiic.h"
@@ -15,6 +17,17 @@
 #include "sleep.h"
 
 #define IIC_MAX_INSTANCES 10
+
+// Timeout parameters
+#ifndef IIC_AXI_TX_TIMEOUT_US
+#define IIC_AXI_TX_TIMEOUT_US   (50000u)   // base timeout ~50 ms
+#endif
+#ifndef IIC_AXI_TX_TIMEOUT_PER_BYTE_US
+#define IIC_AXI_TX_TIMEOUT_PER_BYTE_US (300u)   // add ~0.3 ms per byte
+#endif
+#ifndef IIC_AXI_POLL_STEP_US
+#define IIC_AXI_POLL_STEP_US    (10u)      // poll granularity
+#endif
 
 /************************** Variable Definitions *****************************/
 
@@ -46,6 +59,7 @@ int IicRead(u8 index,u8 addr, u8 *buf, u16 len)
 int IicReset(u8 index)
 {
 	XIicPs_Reset((XIicPs *)IicIntHandlerInfoArray[index].Iic);
+    return XST_SUCCESS;
 }
 
 #endif
@@ -73,6 +87,7 @@ int IicRead(u8 index,u8 addr, u8 *buf, u16 len)
 int IicReset(u8 index)
 {
 	XIic_Reset((XIic *)IicIntHandlerInfoArray[index].Iic);
+    return XST_SUCCESS;
 }
 
 #endif
@@ -111,6 +126,7 @@ int IicReset(u8 index)
 		XIic_Reset((XIic *)IicIntHandlerInfoArray[index].Iic);
 	else
 		XIicPs_Reset((XIicPs *)IicIntHandlerInfoArray[index].Iic);
+    return XST_SUCCESS;
 }
 
 #endif
@@ -119,13 +135,18 @@ int IicReset(u8 index)
 /*
  * Initialize IIC for AXI IIC
  */
-int IicAxiInit(XIic *IicInstance, u16 DeviceId, INTC_TYPE *Intc, u16 VectorId, u8 *Index)
+int IicAxiInit(XIic *IicInstance, UINTPTR BaseAddr, u8 *Index)
 {
 	int Status;
 	XIic_Config *ConfigPtr;
 
+    if (IicNumInstances >= IIC_MAX_INSTANCES) {
+        xil_printf("IicAxiInit: too many instances (max %d)\r\n", IIC_MAX_INSTANCES);
+        return XST_FAILURE;
+    }
+
 	// Initialize IIC
-	ConfigPtr = XIic_LookupConfig(DeviceId);
+	ConfigPtr = XIic_LookupConfig(BaseAddr);
 	if (ConfigPtr == NULL) {
 		xil_printf("IicAxiInit: Failed IIC lookup config\n\r");
 		return XST_FAILURE;
@@ -146,33 +167,13 @@ int IicAxiInit(XIic *IicInstance, u16 DeviceId, INTC_TYPE *Intc, u16 VectorId, u
 	IicIntHandlerInfoArray[IicNumInstances].ErrorCount = 0;
 
 	// Setup interrupt system
-#ifdef XPAR_XSCUGIC_NUM_INSTANCES
-	XScuGic_SetPriorityTriggerType(Intc, VectorId,	0xA0, 0x3);
-
-	Status = XScuGic_Connect(Intc, VectorId,
-				 (Xil_InterruptHandler)XIic_InterruptHandler,
-				 IicInstance);
+    Status = XSetupInterruptSystem(IicInstance, &XIic_InterruptHandler,
+				       ConfigPtr->IntrId, ConfigPtr->IntrParent,
+				       XINTERRUPT_DEFAULT_PRIORITY);
 	if (Status != XST_SUCCESS) {
-		return Status;
-	}
-
-	XScuGic_Enable(Intc, VectorId);
-#endif
-#ifdef XPAR_XINTC_NUM_INSTANCES
-	Status = XIntc_Connect(Intc, VectorId,
-				   (XInterruptHandler) XIic_InterruptHandler,
-				   IicInstance);
-	if (Status != XST_SUCCESS) {
-		return Status;
-	}
-
-	Status = XIntc_Start(Intc, XIN_REAL_MODE);
-	if (Status != XST_SUCCESS) {
+        xil_printf("IicAxiInit: Failed to setup interrupts\r\n");
 		return XST_FAILURE;
 	}
-
-	XIntc_Enable(Intc, VectorId);
-#endif
 
 	// Set the Handlers for transmit and reception.
 	XIic_SetSendHandler(IicInstance,
@@ -201,7 +202,7 @@ int IicAxiWrite(u8 index,u8 addr,u8 *buf, u16 len)
 	// Set the Slave address.
 	Status = XIic_SetAddress(IicInstance, XII_ADDR_TO_SEND_TYPE,addr);
 	if (Status != XST_SUCCESS) {
-		xil_printf("IicWrite: Failed to set address\n\r");
+		xil_printf("IicAxiWrite: Failed to set address\n\r");
 		return XST_FAILURE;
 	}
 
@@ -225,20 +226,41 @@ int IicAxiWrite(u8 index,u8 addr,u8 *buf, u16 len)
 		return XST_FAILURE;
 	}
 
-	/*
-	 * Wait till the transmission is completed.
-	 */
-	for(int i = 0; i<1000; i++){
-		if (((Info->TransmitComplete == 0) != 0) && (XIic_IsIicBusy(IicInstance) == FALSE))
-			break;
-		usleep(100);
-	}
+    // Wait with timeout
+    const u32 timeout_us = IIC_AXI_TX_TIMEOUT_US +
+                           (u32)len * IIC_AXI_TX_TIMEOUT_PER_BYTE_US;
+    u32 elapsed = 0;
+
+    while (elapsed < timeout_us) {
+        // done when ISR fired (TransmitComplete==0) AND bus is idle
+        if ((Info->TransmitComplete == 0) && (XIic_IsIicBusy(IicInstance) == FALSE))
+            break;
+
+        // abort on hw-reported error
+        if (IicInstance->Stats.TxErrors) {
+            IicInstance->Stats.TxErrors = 0;
+            (void)XIic_Stop(IicInstance);
+            (void)XIic_Reset(IicInstance);
+            return XST_FAILURE;
+        }
+
+        usleep(IIC_AXI_POLL_STEP_US);
+        elapsed += IIC_AXI_POLL_STEP_US;
+    }
+
+    // Timeout?
+    if (!((Info->TransmitComplete == 0) && (XIic_IsIicBusy(IicInstance) == FALSE))) {
+        (void)XIic_Stop(IicInstance);
+        (void)XIic_Reset(IicInstance);   // recover the core
+        return XST_FAILURE;
+    }
 
 	/*
 	 * Stop the IIC device.
 	 */
 	Status = XIic_Stop(IicInstance);
 	if (Status != XST_SUCCESS) {
+        xil_printf("IicAxiWrite: XIic_Stop failed\r\n");
 		return XST_FAILURE;
 	}
 
@@ -278,9 +300,10 @@ int IicAxiRead(u8 index,u8 addr, u8 *buf, u16 len)
 	}
 
 	// Wait till all the data is received.
-	timeout = 1000000;
+	timeout = 1000;
 	while ((timeout) && (((Info->ReceiveComplete == 0) == 0) || (XIic_IsIicBusy(IicInstance) == TRUE))) {
 		timeout--;
+        usleep(10);
 	}
 
 	// If it timed out
@@ -327,13 +350,18 @@ void IicAxiStatusHandler(IicIntHandlerInfo *Info, int Event)
 /*
  * Initialize IIC for PS IIC
  */
-int IicPsInit(XIicPs *IicInstance, u16 DeviceId, INTC_TYPE *Intc, u16 VectorId, u8 *Index)
+int IicPsInit(XIicPs *IicInstance, UINTPTR BaseAddr, u8 *Index)
 {
 	XIicPs_Config *ConfigPtr;	/* Pointer to configuration data */
 	int Status;
 
+    if (IicNumInstances >= IIC_MAX_INSTANCES) {
+        xil_printf("IicPsInit: too many instances (max %d)\r\n", IIC_MAX_INSTANCES);
+        return XST_FAILURE;
+    }
+
 	// Initialize the IIC driver
-	ConfigPtr = XIicPs_LookupConfig(DeviceId);
+	ConfigPtr = XIicPs_LookupConfig(BaseAddr);
 	if (ConfigPtr == NULL) {
 		return XST_FAILURE;
 	}
@@ -358,30 +386,14 @@ int IicPsInit(XIicPs *IicInstance, u16 DeviceId, INTC_TYPE *Intc, u16 VectorId, 
 	IicIntHandlerInfoArray[IicNumInstances].TransmitComplete = 0;
 	IicIntHandlerInfoArray[IicNumInstances].ErrorCount = 0;
 
-#ifdef XPAR_XSCUGIC_NUM_INSTANCES
-	Status = XScuGic_Connect(Intc, VectorId,
-	    (Xil_InterruptHandler)XIicPs_MasterInterruptHandler,
-	    (void *)IicInstance);
+	Status = XSetupInterruptSystem(IicInstance, XIicPs_MasterInterruptHandler,
+			ConfigPtr->IntrId,
+			ConfigPtr->IntrParent,
+			XINTERRUPT_DEFAULT_PRIORITY);
 	if (Status != XST_SUCCESS) {
-	  return Status;
-	}
-	XScuGic_Enable(Intc, VectorId);
-#endif
-#ifdef XPAR_XINTC_NUM_INSTANCES
-	Status = XIntc_Connect(Intc, VectorId,
-				   (XInterruptHandler) XIic_InterruptHandler,
-				   IicInstance);
-	if (Status != XST_SUCCESS) {
-		return Status;
-	}
-
-	Status = XIntc_Start(Intc, XIN_REAL_MODE);
-	if (Status != XST_SUCCESS) {
+        xil_printf("IicPsInit: Failed to setup interrupts\r\n");
 		return XST_FAILURE;
 	}
-
-	XIntc_Enable(Intc, VectorId);
-#endif
 
 	// Increment the number of IIC instances attached to the driver
 	*Index = IicNumInstances;

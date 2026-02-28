@@ -1,0 +1,9 @@
+{
+    "bd_name": "versal_ibert",
+    "app_name": "ibert_test",
+    "app_template": "None",
+    "src": {
+        "all": "common/src"
+    },
+    "combine_bit_elf": true
+}
