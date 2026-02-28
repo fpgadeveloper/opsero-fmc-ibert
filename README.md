@@ -111,7 +111,7 @@ git clone https://github.com/fpgadeveloper/opsero-fmc-ibert.git
 Source Vivado tool:
 
 ```
-source <path-to-vivado>/2025.2/settings64.sh
+source <path-to-xilinx-tools>/2025.2/Vivado/settings64.sh
 ```
 
 To build the 10G IBERT project for [VEK280 ES Rev-B] and OP081:
