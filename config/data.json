@@ -1,6 +1,6 @@
 {
-  "bd_name": "ibert",
-  "vivado_bd_name": "versal_ibert",
+  "bd_name": "versal_ibert",
+  "prj_name": "opsero-fmc-ibert",
   "groups": [
     {
       "label": "fpga",
