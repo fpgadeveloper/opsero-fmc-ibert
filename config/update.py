@@ -15,8 +15,8 @@ import os
 import json
 
 # Load the JSON data
-def load_json():
-    with open('data.json') as f:
+def load_json(filename):
+    with open(filename) as f:
         return json.load(f)
 
 # Create design tables for the README.md file
@@ -109,6 +109,7 @@ def update_readme(file_path,data):
 def get_root_targets(data):
     templates = {'fpga': 'microblaze', 'z7': 'zynq', 'zu': 'zynqMP', 'versal': 'versal'}
     targets = []
+    targets.append('BD_NAME = {}'.format(data['bd_name']))
     for linkspeed in linkspeeds:
         targets.append('# {}G designs'.format(linkspeed))
         for design in data['designs']:
@@ -124,7 +125,9 @@ def get_root_targets(data):
     return(targets)
 
 def get_vivado_targets(data):
-    targets = ['{}_target := 0'.format(design['label']) for design in data['designs']]
+    targets = []
+    targets.append('BD_NAME = {}'.format(data.get('vivado_bd_name', data['bd_name'])))
+    targets += ['{}_target := 0'.format(design['label']) for design in data['designs']]
     return(targets)
 
 def get_vivado_build_targets(data):
@@ -166,9 +169,15 @@ def get_petalinux_targets(data):
             targets.append(target)
     return(targets)
 
-def get_vitis_targets(data):
+def get_vitis_targets(data, args):
     templates = {'fpga': 'microblaze', 'z7': 'zynq', 'zu': 'zynqMP', 'versal': 'versal'}
     targets = []
+    # Global settings from args.json
+    targets.append('BD_NAME = {}'.format(args['bd_name']))
+    targets.append('APP_NAME = {}'.format(args.get('app_name', 'test_app')))
+    combine = str(args.get('combine_bit_elf', True)).lower()
+    targets.append('COMBINE_BIT_ELF = {}'.format(combine))
+    # Per-target arch assignments
     for design in data['designs']:
         if not design['baremetal']:
             continue
@@ -216,7 +225,7 @@ def update_file(file_path,targets):
 # Make sure that there is a constraints file for all target designs
 def check_constraints(data):
     for design in data['designs']:
-        filename = '../../Vivado/src/constraints/{}.xdc'.format("_".join(design['label'].split("_")[:-2]))
+        filename = '../Vivado/src/constraints/{}.xdc'.format("_".join(design['label'].split("_")[:-2]))
         if not os.path.isfile(filename):
             print('WARNING: No constraints file found for target',design['boardname'])
 
@@ -224,39 +233,40 @@ def check_constraints(data):
 linkspeeds = ['10','16','28','32']
 
 # Read the JSON data
-data = load_json()
-file_path = '../../README.md'
+data = load_json('data.json')
+args = load_json('../Vitis/py/args.json')
+file_path = '../README.md'
 
 # Update the main README.md file
 update_readme(file_path,data)
 
 # Update the root makefile
-root_makefile = '../../Makefile'
+root_makefile = '../Makefile'
 root_targets = get_root_targets(data)
 update_file(root_makefile,root_targets)
 
 # Update the Vivado makefile
-vivado_makefile = '../../Vivado/Makefile'
+vivado_makefile = '../Vivado/Makefile'
 vivado_targets = get_vivado_targets(data)
 update_file(vivado_makefile,vivado_targets)
 
 # Update the Vivado build.tcl
-vivado_build_tcl = '../../Vivado/scripts/build.tcl'
+vivado_build_tcl = '../Vivado/scripts/build.tcl'
 vivado_build_targets = get_vivado_build_targets(data)
 update_file(vivado_build_tcl,vivado_build_targets)
 
 # Update the Vitis makefile
-vitis_makefile = '../../Vitis/Makefile'
-vitis_targets = get_vitis_targets(data)
+vitis_makefile = '../Vitis/Makefile'
+vitis_targets = get_vitis_targets(data, args)
 update_file(vitis_makefile,vitis_targets)
 
 ## Update the PetaLinux makefile
-#petalinux_makefile = '../../PetaLinux/Makefile'
+#petalinux_makefile = '../PetaLinux/Makefile'
 #petalinux_targets = get_petalinux_targets(data)
 #update_file(petalinux_makefile,petalinux_targets)
 
 # Update the gitignore
-gitignore = '../../.gitignore'
+gitignore = '../.gitignore'
 gitignore_paths = get_ignore_paths(data)
 update_file(gitignore,gitignore_paths)
 

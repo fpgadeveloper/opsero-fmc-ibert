@@ -4,7 +4,6 @@
 
 RM = rm -rf
 ROOT_DIR = $(shell pwd)
-BD_NAME = ibert
 
 # defaults
 .DEFAULT_GOAL := bootimage
@@ -13,6 +12,7 @@ JOBS ?= 8
 
 # valid targets (template name, both (plnx+baremetal) or baremetal_only)
 # UPDATER START
+BD_NAME = ibert
 # 10G designs
 vek280_op063_10g_target := versal baremetal_only
 vek280_op081_10g_target := versal baremetal_only

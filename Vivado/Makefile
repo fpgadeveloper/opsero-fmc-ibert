@@ -7,7 +7,6 @@ MKDIR = mkdir -p
 RM = rm -rf
 ROOT_DIR = $(shell pwd)
 VIVADO = $(XILINX_VIVADO)/bin/vivado
-BD_NAME = versal_ibert
 
 # defaults
 .DEFAULT_GOAL := xsa
@@ -16,6 +15,7 @@ JOBS ?= 8
 
 # valid targets
 # UPDATER START
+BD_NAME = versal_ibert
 vek280_op063_10g_target := 0
 vek280_op063_16g_target := 0
 vek280_op063_28g_target := 0
