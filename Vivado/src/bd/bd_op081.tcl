@@ -38,7 +38,7 @@ set oldCurInst [current_bd_instance .]
 current_bd_instance $parentObj
 
 # Create constant LOW for the minimum I/Os of Quad SFP28 FMC
-set const_low [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant const_low ]
+set const_low [ create_bd_cell -type inline_hdl -vlnv xilinx.com:inline_hdl:ilconstant:1.0 const_low ]
 set_property -dict [list CONFIG.CONST_VAL {0} CONFIG.CONST_WIDTH {12}] $const_low
 make_bd_pins_external  [get_bd_pins const_low/dout]
 

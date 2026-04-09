@@ -53,12 +53,12 @@ set is_vck190 [str_contains $target "vck190"]
 set is_vek280 [str_contains $target "vek280"]
 
 # Create constant HIGH for the PCIe resets (active low)
-set const_perst_n_a [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant const_perst_n_a ]
+set const_perst_n_a [ create_bd_cell -type inline_hdl -vlnv xilinx.com:inline_hdl:ilconstant:1.0 const_perst_n_a ]
 set_property -dict [list CONFIG.CONST_VAL {1} CONFIG.CONST_WIDTH {1}] $const_perst_n_a
 create_bd_port -dir O perst_n_a
 connect_bd_net [get_bd_pins const_perst_n_a/dout] [get_bd_ports perst_n_a]
 
-set const_perst_n_b [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant const_perst_n_b ]
+set const_perst_n_b [ create_bd_cell -type inline_hdl -vlnv xilinx.com:inline_hdl:ilconstant:1.0 const_perst_n_b ]
 set_property -dict [list CONFIG.CONST_VAL {1} CONFIG.CONST_WIDTH {1}] $const_perst_n_b
 create_bd_port -dir O perst_n_b
 connect_bd_net [get_bd_pins const_perst_n_b/dout] [get_bd_ports perst_n_b]
