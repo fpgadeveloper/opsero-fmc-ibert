@@ -32,6 +32,7 @@ vck190_fmcp1_op063_28g_target := 0
 vck190_fmcp1_op081_10g_target := 0
 vck190_fmcp1_op081_28g_target := 0
 vck190_fmcp1_op100_16g_target := 0
+vck190_fmcp1_op103_16g_target := 0
 vck190_fmcp1_op120_10g_target := 0
 vck190_fmcp1_op120_28g_target := 0
 # UPDATER END

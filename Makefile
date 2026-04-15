@@ -27,6 +27,7 @@ vek280_op063_16g_target := versal baremetal_only
 vek280_op100_16g_target := versal baremetal_only
 vck190_fmcp1_op063_16g_target := versal baremetal_only
 vck190_fmcp1_op100_16g_target := versal baremetal_only
+vck190_fmcp1_op103_16g_target := versal baremetal_only
 # 28G designs
 vek280_op063_28g_target := versal baremetal_only
 vek280_op081_28g_target := versal baremetal_only

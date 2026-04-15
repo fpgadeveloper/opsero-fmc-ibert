@@ -11,6 +11,8 @@ docs/build/
 bootimages/
 PetaLinux/offline.txt
 *.lock
+results/
+scripts/__pycache__/
 # UPDATER START
 Vivado/vek280_op063_10g/
 Vivado/vek280_op063_16g/
@@ -28,6 +30,7 @@ Vivado/vck190_fmcp1_op063_28g/
 Vivado/vck190_fmcp1_op081_10g/
 Vivado/vck190_fmcp1_op081_28g/
 Vivado/vck190_fmcp1_op100_16g/
+Vivado/vck190_fmcp1_op103_16g/
 Vivado/vck190_fmcp1_op120_10g/
 Vivado/vck190_fmcp1_op120_28g/
 # UPDATER END

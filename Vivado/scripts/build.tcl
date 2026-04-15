@@ -47,6 +47,7 @@ dict set target_dict vek280_op063_16g { xilinx.com vek280 versal op063 { 0 1 2 3
 dict set target_dict vek280_op100_16g { xilinx.com vek280 versal op100 { 0 1 2 3 4 5 6 7 } "16" }
 dict set target_dict vck190_fmcp1_op063_16g { xilinx.com vck190 versal op063 { 0 1 2 3 4 5 6 7 } "16" }
 dict set target_dict vck190_fmcp1_op100_16g { xilinx.com vck190 versal op100 { 0 1 2 3 4 5 6 7 } "16" }
+dict set target_dict vck190_fmcp1_op103_16g { xilinx.com vck190 versal op103 { 0 1 2 3 4 5 6 7 } "16" }
 # 28G designs
 dict set target_dict vek280_op063_28g { xilinx.com vek280 versal op063 { 0 1 2 3 4 5 6 7 } "28" }
 dict set target_dict vek280_op081_28g { xilinx.com vek280 versal op081 { 0 1 2 3 4 5 6 7 } "28" }

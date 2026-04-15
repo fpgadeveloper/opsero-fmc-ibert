@@ -47,6 +47,20 @@
       "gtrefclkfreq1": "100"
     }
   ],
+  "ibert_params": {
+    "tx_pattern": "PRBS 31",
+    "rx_pattern": "PRBS 31",
+    "settle_sec": 10,
+    "scan": {
+      "horizontal_increment": "4",
+      "vertical_increment": "4",
+      "horizontal_range": "-0.500 UI to 0.500 UI",
+      "vertical_range": "100%",
+      "dwell_ber": "1e-6"
+    },
+    "tx_properties": {},
+    "rx_properties": {}
+  },
   "designs": [
     {
       "publish": true,
@@ -506,6 +520,35 @@
       "boardname": "vck190",
       "fmcs": [
         "OP100"
+      ],
+      "lanes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "linkspeed": "16",
+      "connector": "FMCP1",
+      "group": "versal",
+      "petalinux": false,
+      "baremetal": true,
+      "license": true,
+      "flashsize": "0",
+      "flashintf": "0"
+    },
+    {
+      "publish": true,
+      "label": "vck190_fmcp1_op103_16g",
+      "board": "VCK190",
+      "link": "https://www.xilinx.com/vck190",
+      "url": "xilinx.com",
+      "boardname": "vck190",
+      "fmcs": [
+        "OP103"
       ],
       "lanes": [
         0,

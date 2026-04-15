@@ -22,6 +22,7 @@ COMBINE_BIT_ELF = true
 vek280_op100_16g_target := versal
 vek280_op100_32g_target := versal
 vck190_fmcp1_op100_16g_target := versal
+vck190_fmcp1_op103_16g_target := versal
 # UPDATER END
 
 TARGET_LIST := $(sort $(patsubst %_target,%,$(filter %_target,$(.VARIABLES))))
