@@ -47,9 +47,18 @@ try:
     import matplotlib.pyplot as plt
     from matplotlib.colors import BoundaryNorm, ListedColormap
 except ImportError as e:
-    print("ERROR: matplotlib / numpy not available:", e, file=sys.stderr)
-    print("Install with: pip install matplotlib numpy  (or apt install python3-matplotlib python3-numpy)",
+    print(f"ERROR: {e}", file=sys.stderr)
+    print("Install with:  pip install matplotlib numpy", file=sys.stderr)
+    print("   or (apt):   sudo apt install python3-matplotlib python3-numpy",
           file=sys.stderr)
+    path_dirs = os.environ.get("PATH", "")
+    if any(tok in path_dirs for tok in ("Xilinx", "Vitis", "Vivado", "petalinux")):
+        print("", file=sys.stderr)
+        print("NOTE: AMD/Xilinx tools are on your PATH, which may have replaced", file=sys.stderr)
+        print("your system python3 with one that does not include numpy.", file=sys.stderr)
+        print("Try using the system Python explicitly:", file=sys.stderr)
+        print("  Linux:   /usr/bin/python3 scripts/scan_to_png.py <results_dir>", file=sys.stderr)
+        print("  Windows: C:\\Python3\\python.exe scripts\\scan_to_png.py <results_dir>", file=sys.stderr)
     sys.exit(1)
 
 
@@ -333,6 +342,89 @@ def render_eye(csv_path, png_path, title=None):
     plt.close(fig)
 
 
+def render_combined(csv_paths, png_path):
+    """Render all lanes onto a single grid image (2 columns, ceil(N/2) rows)."""
+    n = len(csv_paths)
+    ncols = 2
+    nrows = math.ceil(n / ncols)
+
+    cell_w, cell_h = 4.2, 3.2
+    cb_w = 1.0
+    fig_w = ncols * cell_w + cb_w + 0.6
+    fig_h = nrows * cell_h + 1.0
+
+    fig, axes = plt.subplots(
+        nrows, ncols,
+        figsize=(fig_w, fig_h),
+        dpi=130,
+        squeeze=False,
+    )
+
+    target = _read_target_name(csv_paths[0]) if csv_paths else ""
+
+    for idx, csv_path in enumerate(csv_paths):
+        row, col = divmod(idx, ncols)
+        ax = axes[row][col]
+
+        x_ui, y_codes, ber, meta = parse_scan_csv(csv_path)
+        if len(y_codes) >= 2 and y_codes[0] > y_codes[-1]:
+            y_codes = y_codes[::-1]
+            ber = ber[::-1, :]
+
+        X, Y = np.meshgrid(x_ui, y_codes)
+        ax.contourf(
+            X, Y, ber,
+            levels=VIVADO_BOUNDARIES,
+            colors=VIVADO_COLORS,
+            extend="both",
+        )
+        ax.set_xlim(x_ui.min(), x_ui.max())
+        ax.set_ylim(y_codes.min(), y_codes.max())
+
+        lane_label = os.path.basename(csv_path).rsplit(".", 1)[0]
+        area = meta.get("Open Area", "")
+        hp   = meta.get("Horizontal Percentage", "")
+        vp   = meta.get("Vertical Percentage", "")
+        subtitle = f"Open {area}  ({hp}% H × {vp}% V)" if area and hp and vp else ""
+        ax.set_title(f"{lane_label}\n{subtitle}", fontsize=8)
+        ax.tick_params(labelsize=7)
+        ax.set_xlabel("UI", fontsize=7)
+        ax.set_ylabel("codes", fontsize=7)
+
+    # Hide any unused subplot cells
+    for idx in range(n, nrows * ncols):
+        row, col = divmod(idx, ncols)
+        axes[row][col].set_visible(False)
+
+    # Shared colourbar on the right
+    cb_ax = fig.add_axes([0.92, 0.08, 0.02, 0.84])
+    num = len(VIVADO_COLORS)
+    cb_ax.set_xlim(0, 1)
+    cb_ax.set_ylim(0, num)
+    for i, color in enumerate(VIVADO_COLORS):
+        cb_ax.add_patch(plt.Rectangle(
+            (0, i), 1, 1,
+            facecolor=color,
+            edgecolor="black",
+            linewidth=0.3,
+        ))
+    for i, label in enumerate(VIVADO_LABELS):
+        cb_ax.text(1.3, i + 0.5, label, va="center", ha="left", fontsize=7)
+    cb_ax.set_xticks([])
+    cb_ax.set_yticks([])
+    for spine in cb_ax.spines.values():
+        spine.set_visible(False)
+    cb_ax.text(0.5, num + 0.2, "BER", va="bottom", ha="center", fontsize=8)
+
+    fig.suptitle(target or "Eye Scan Summary", fontsize=11, y=0.99)
+    fig.subplots_adjust(
+        left=0.07, right=0.90, top=0.93, bottom=0.05,
+        hspace=0.45, wspace=0.30,
+    )
+    fig.savefig(png_path)
+    plt.close(fig)
+
+
 def main():
     ap = argparse.ArgumentParser(description="Render Vivado eye-scan CSVs to PNGs")
     ap.add_argument("path", help="Results directory or a single lane_NN.csv file")
@@ -356,6 +448,14 @@ def main():
             print(f"  {os.path.basename(csv)} -> {os.path.basename(png)}")
         except Exception as e:
             print(f"  {os.path.basename(csv)} FAILED: {e}", file=sys.stderr)
+
+    if len(csvs) > 1:
+        combined_png = os.path.join(os.path.dirname(csvs[0]), "combined.png")
+        try:
+            render_combined(csvs, combined_png)
+            print(f"  -> {os.path.basename(combined_png)}  ({len(csvs)} lanes)")
+        except Exception as e:
+            print(f"  combined.png FAILED: {e}", file=sys.stderr)
 
 
 if __name__ == "__main__":

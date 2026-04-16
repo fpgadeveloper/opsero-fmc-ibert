@@ -56,9 +56,7 @@ require a license to generate a bitstream with the AMD Xilinx tools.
 | Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
 |-----------------------|----------------------|------------------------------|-------------|-------------|-------|
 | [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_16g`           | 8x          | FMCP        | Enterprise |
-| [VEK280]              | OP100                | `vek280_op100_16g`           | 8x          | FMCP        | Enterprise |
 | [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_16g`     | 8x          | FMCP1       | Enterprise |
-| [VCK190]              | OP100                | `vck190_fmcp1_op100_16g`     | 8x          | FMCP1       | Enterprise |
 | [VCK190]              | OP103                | `vck190_fmcp1_op103_16g`     | 8x          | FMCP1       | Enterprise |
 
 ### 28G designs
@@ -70,6 +68,7 @@ require a license to generate a bitstream with the AMD Xilinx tools.
 | [VEK280]              | OP120                | `vek280_op120_28g`           | 8x          | FMCP        | Enterprise |
 | [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_28g`     | 8x          | FMCP1       | Enterprise |
 | [VCK190]              | OP081                | `vck190_fmcp1_op081_28g`     | 8x          | FMCP1       | Enterprise |
+| [VCK190]              | OP103                | `vck190_fmcp1_op103_28g`     | 8x          | FMCP1       | Enterprise |
 | [VCK190]              | OP120                | `vck190_fmcp1_op120_28g`     | 8x          | FMCP1       | Enterprise |
 
 ### 32G designs
@@ -77,7 +76,6 @@ require a license to generate a bitstream with the AMD Xilinx tools.
 | Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
 |-----------------------|----------------------|------------------------------|-------------|-------------|-------|
 | [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_32g`           | 8x          | FMCP        | Enterprise |
-| [VEK280]              | OP100                | `vek280_op100_32g`           | 8x          | FMCP        | Enterprise |
 
 ### GT Settings
 
