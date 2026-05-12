@@ -410,11 +410,11 @@ a tight-knit team of FPGA experts delivering FPGA products and design services t
 Follow our blog, [FPGA Developer](https://www.fpgadeveloper.com "FPGA Developer"), for news, tutorials and
 updates on the awesome projects we work on.
 
-[FPGA Drive FMC Gen4]: https://www.fpgadrive.com/docs/fpga-drive-fmc-gen4/overview/
-[M.2 M-key Stack FMC]: https://www.fpgadrive.com/docs/m2-mkey-stack-fmc/overview/
+[FPGA Drive FMC Gen4]: https://docs.opsero.com/op063/datasheet/overview/
+[M.2 M-key Stack FMC]: https://docs.opsero.com/op073/datasheet/overview/
 [M.2 loopback]: https://opsero.com/product/m-2-loopback-2230-mkey/
 [FMC XM107 Loopback card]: https://docs.amd.com/v/u/en-US/ug539
-[Quad SFP28 FMC]: https://ethernetfmc.com/docs/quad-sfp28-fmc/overview/
+[Quad SFP28 FMC]: https://docs.opsero.com/op081/datasheet/overview/
 [MCIO PCIe FMC]: https://opsero.com/product/mcio-pcie-fmc
 [TI DS320PR810]: https://www.ti.com/product/DS320PR810
 [2x QSFP28 FMC]: https://opsero.com/product/2x-qsfp28-fmc
