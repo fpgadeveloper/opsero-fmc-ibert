@@ -106,29 +106,6 @@ def update_readme(file_path,data):
                 # Write the line if not inside the updater block
                 outfile.write(line)
 
-def get_root_targets(data, args):
-    templates = {'fpga': 'microblaze', 'z7': 'zynq', 'zu': 'zynqMP', 'versal': 'versal'}
-    targets = []
-    targets.append('BD_NAME = {}'.format(data['bd_name']))
-    targets.append('PRJ_NAME = {}'.format(data.get('prj_name', data['bd_name'])))
-    combine = str(args.get('combine_bit_elf', True)).lower()
-    targets.append('COMBINE_BIT_ELF = {}'.format(combine))
-    for linkspeed in linkspeeds:
-        targets.append('# {}G designs'.format(linkspeed))
-        for design in data['designs']:
-            if design['linkspeed'] != linkspeed:
-                continue
-            template = templates[design['group']]
-            if design.get('petalinux') and design.get('baremetal'):
-                sw = 'both'
-            elif design.get('petalinux'):
-                sw = 'petalinux_only'
-            else:
-                sw = 'baremetal_only'
-            target = '{}_target := {} {}'.format(design['label'],template,sw)
-            targets.append(target)
-    return(targets)
-
 def get_vivado_targets(data):
     targets = []
     targets.append('BD_NAME = {}'.format(data['bd_name']))
@@ -245,10 +222,8 @@ file_path = '../README.md'
 # Update the main README.md file
 update_readme(file_path,data)
 
-# Update the root makefile
-root_makefile = '../Makefile'
-root_targets = get_root_targets(data, args)
-update_file(root_makefile,root_targets)
+# Note: opsero-fmc-ibert has no root Makefile (no SD-card boot packaging —
+# all targets boot via JTAG), so the root-Makefile update step is skipped.
 
 # Update the Vivado makefile
 vivado_makefile = '../Vivado/Makefile'
