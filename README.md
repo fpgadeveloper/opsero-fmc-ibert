@@ -42,40 +42,40 @@ require a license to generate a bitstream with the AMD Xilinx tools.
 <!-- updater start -->
 ### 10G designs
 
-| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
-|-----------------------|----------------------|------------------------------|-------------|-------------|-------|
-| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_10g`           | 8x          | FMCP        | Enterprise |
-| [VEK280]              | OP081                | `vek280_op081_10g`           | 8x          | FMCP        | Enterprise |
-| [VEK280]              | OP120                | `vek280_op120_10g`           | 8x          | FMCP        | Enterprise |
-| [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_10g`     | 8x          | FMCP1       | Enterprise |
-| [VCK190]              | OP081                | `vck190_fmcp1_op081_10g`     | 8x          | FMCP1       | Enterprise |
-| [VCK190]              | OP120                | `vck190_fmcp1_op120_10g`     | 8x          | FMCP1       | Enterprise |
+| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition | IP<br>License |
+|-----------------------|----------------------|------------------------------|-------------|-------------|-------|-------|
+| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_10g`           | 8x          | FMCP        | Enterprise | -     |
+| [VEK280]              | OP081                | `vek280_op081_10g`           | 8x          | FMCP        | Enterprise | -     |
+| [VEK280]              | OP120                | `vek280_op120_10g`           | 8x          | FMCP        | Enterprise | -     |
+| [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_10g`     | 8x          | FMCP1       | Enterprise | -     |
+| [VCK190]              | OP081                | `vck190_fmcp1_op081_10g`     | 8x          | FMCP1       | Enterprise | -     |
+| [VCK190]              | OP120                | `vck190_fmcp1_op120_10g`     | 8x          | FMCP1       | Enterprise | -     |
 
 ### 16G designs
 
-| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
-|-----------------------|----------------------|------------------------------|-------------|-------------|-------|
-| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_16g`           | 8x          | FMCP        | Enterprise |
-| [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_16g`     | 8x          | FMCP1       | Enterprise |
-| [VCK190]              | OP103                | `vck190_fmcp1_op103_16g`     | 8x          | FMCP1       | Enterprise |
+| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition | IP<br>License |
+|-----------------------|----------------------|------------------------------|-------------|-------------|-------|-------|
+| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_16g`           | 8x          | FMCP        | Enterprise | -     |
+| [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_16g`     | 8x          | FMCP1       | Enterprise | -     |
+| [VCK190]              | OP103                | `vck190_fmcp1_op103_16g`     | 8x          | FMCP1       | Enterprise | -     |
 
 ### 28G designs
 
-| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
-|-----------------------|----------------------|------------------------------|-------------|-------------|-------|
-| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_28g`           | 8x          | FMCP        | Enterprise |
-| [VEK280]              | OP081                | `vek280_op081_28g`           | 8x          | FMCP        | Enterprise |
-| [VEK280]              | OP120                | `vek280_op120_28g`           | 8x          | FMCP        | Enterprise |
-| [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_28g`     | 8x          | FMCP1       | Enterprise |
-| [VCK190]              | OP081                | `vck190_fmcp1_op081_28g`     | 8x          | FMCP1       | Enterprise |
-| [VCK190]              | OP103                | `vck190_fmcp1_op103_28g`     | 8x          | FMCP1       | Enterprise |
-| [VCK190]              | OP120                | `vck190_fmcp1_op120_28g`     | 8x          | FMCP1       | Enterprise |
+| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition | IP<br>License |
+|-----------------------|----------------------|------------------------------|-------------|-------------|-------|-------|
+| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_28g`           | 8x          | FMCP        | Enterprise | -     |
+| [VEK280]              | OP081                | `vek280_op081_28g`           | 8x          | FMCP        | Enterprise | -     |
+| [VEK280]              | OP120                | `vek280_op120_28g`           | 8x          | FMCP        | Enterprise | -     |
+| [VCK190]              | OP063<br>OP073<br>XM107 | `vck190_fmcp1_op063_28g`     | 8x          | FMCP1       | Enterprise | -     |
+| [VCK190]              | OP081                | `vck190_fmcp1_op081_28g`     | 8x          | FMCP1       | Enterprise | -     |
+| [VCK190]              | OP103                | `vck190_fmcp1_op103_28g`     | 8x          | FMCP1       | Enterprise | -     |
+| [VCK190]              | OP120                | `vck190_fmcp1_op120_28g`     | 8x          | FMCP1       | Enterprise | -     |
 
 ### 32G designs
 
-| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |
-|-----------------------|----------------------|------------------------------|-------------|-------------|-------|
-| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_32g`           | 8x          | FMCP        | Enterprise |
+| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition | IP<br>License |
+|-----------------------|----------------------|------------------------------|-------------|-------------|-------|-------|
+| [VEK280]              | OP063<br>OP073<br>XM107 | `vek280_op063_32g`           | 8x          | FMCP        | Enterprise | -     |
 
 ### GT Settings
 
@@ -102,26 +102,61 @@ Notes:
 
 ## Build instructions
 
-Clone the repo:
+Clone the repo and change into its directory:
 ```
 git clone https://github.com/fpgadeveloper/opsero-fmc-ibert.git
+cd opsero-fmc-ibert
 ```
 
-Source Vivado tool:
+### Cross-platform build runner
+
+All builds are driven by `build.py` at the repo root, on both Windows
+(git bash) and Linux. The `build.sh` / `build.bat` shim finds a suitable
+Python 3 automatically (including the one bundled with the AMD tools).
+Pick a target design label from the tables above (or run `./build.sh
+list`), then run the build command for the stage(s) you want — each
+command builds whatever it depends on automatically and skips anything
+already built. On Windows without git bash, run the same commands from
+Command Prompt or PowerShell using `build.bat` (e.g. `build.bat xsa
+--target <target>`).
+
+You don't need to source the AMD tools first — the build runner finds
+Vivado, Vitis and PetaLinux automatically in their standard install
+locations and sets up the environment each stage needs. If your tools
+are installed somewhere non-standard and the runner can't find them,
+source the tool settings yourself before running the build.
+
+#### Build the Vivado project (bitstream + XSA)
 
 ```
-source <path-to-xilinx-tools>/2025.2/Vivado/settings64.sh
+./build.sh xsa --target <target>
 ```
 
-To build the 10G IBERT project for [VEK280 ES Rev-B] and OP081:
+#### Build the standalone application
+
+Builds the Vitis workspace and the baremetal boot file (`BOOT.BIN` or
+bit file, depending on the device family):
 
 ```
-cd opsero-fmc-ibert/Vivado
-make xsa TARGET=vek280_es_revb_op081_10g
+./build.sh standalone --target <target>
 ```
 
-Replace the target label in these commands with the one corresponding to the target design of your
-choice from the tables above.
+#### Build everything
+
+Builds all of the above that the target supports, then gathers the boot
+images into `bootimages/*.zip`:
+
+```
+./build.sh all --target <target>
+./build.sh all --target all          # every target in the repo
+```
+
+Also available: `status`, `clean`, `project` — see
+`./build.sh --help`. On Windows, the PetaLinux and Yocto stages require a
+Linux machine; the runner says so and prints the hand-off command. The
+legacy `make` interface still works on Linux (each Makefile now wraps
+`build.sh`) but is deprecated and will be removed at the next version
+update.
 
 ## Automated IBERT test script
 

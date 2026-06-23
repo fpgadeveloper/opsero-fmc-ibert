@@ -24,13 +24,15 @@ def load_json(filename):
 def create_tables(data):
     # License dict
     to_edition = {True: "Enterprise", False: "Standard :free:"}
+    # IP license dict (separately-licensed IP cores, e.g. TEMAC/XXV/HDMI/MRMAC)
+    to_ip = {True: "Required", False: "-"}
     tables = []
     links = {}
     for linkspeed in linkspeeds:
         tables.append('### {}G designs'.format(linkspeed))
         tables.append('')
-        tables.append('| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition |')
-        tables.append('|-----------------------|----------------------|------------------------------|-------------|-------------|-------|')
+        tables.append('| Target board          | Target FMCs          | Target design                | GT lanes    | FMC Slot    | Vivado<br> Edition | IP<br>License |')
+        tables.append('|-----------------------|----------------------|------------------------------|-------------|-------------|-------|-------|')
         for design in data['designs']:
             if not design['publish']:
                 continue
@@ -43,6 +45,7 @@ def create_tables(data):
                 cols.append('{0}'.format(ports).ljust(11))
                 cols.append('{0}'.format(design['connector']).ljust(11))
                 cols.append('{0}'.format(to_edition[design['license']]).ljust(5))
+                cols.append('{0}'.format(to_ip[design.get('ip_license', False)]).ljust(5))
                 tables.append('| ' + ' | '.join(cols) + ' |')
                 links[design['board']] = design['link']
         tables.append('')
@@ -106,12 +109,6 @@ def update_readme(file_path,data):
                 # Write the line if not inside the updater block
                 outfile.write(line)
 
-def get_vivado_targets(data):
-    targets = []
-    targets.append('BD_NAME = {}'.format(data['bd_name']))
-    targets += ['{}_target := 0'.format(design['label']) for design in data['designs']]
-    return(targets)
-
 def get_vivado_build_targets(data):
     templates = {'fpga': 'mb', 'z7': 'zynq', 'zu': 'zynqmp', 'versal': 'versal'}
     targets = []
@@ -150,24 +147,6 @@ def get_petalinux_targets(data):
             target = '{}_target := {} {} {} {}'.format(design['label'],template,design['flashsize'],design['flashintf'],lanecfg)
             targets.append(target)
     return(targets)
-
-def get_vitis_targets(data, args):
-    templates = {'fpga': 'microblaze', 'z7': 'zynq', 'zu': 'zynqMP', 'versal': 'versal'}
-    targets = []
-    # Global settings from args.json
-    targets.append('BD_NAME = {}'.format(args['bd_name']))
-    targets.append('APP_NAME = {}'.format(args.get('app_name', 'test_app')))
-    combine = str(args.get('combine_bit_elf', True)).lower()
-    targets.append('COMBINE_BIT_ELF = {}'.format(combine))
-    # Per-target arch assignments
-    for design in data['designs']:
-        if not design['baremetal']:
-            continue
-        template = templates[design['group']]
-        target = '{}_target := {}'.format(design['label'],template)
-        targets.append(target)
-    return(targets)
-
 
 def get_ignore_paths(data):
     paths = []
@@ -225,20 +204,13 @@ update_readme(file_path,data)
 # Note: opsero-fmc-ibert has no root Makefile (no SD-card boot packaging —
 # all targets boot via JTAG), so the root-Makefile update step is skipped.
 
-# Update the Vivado makefile
-vivado_makefile = '../Vivado/Makefile'
-vivado_targets = get_vivado_targets(data)
-update_file(vivado_makefile,vivado_targets)
-
+# NOTE: the root, Vivado and Vitis Makefiles are thin wrappers around
+# build.sh and read targets from data.json at runtime -- they no longer
+# contain generated target lists.
 # Update the Vivado build.tcl
 vivado_build_tcl = '../Vivado/scripts/build.tcl'
 vivado_build_targets = get_vivado_build_targets(data)
 update_file(vivado_build_tcl,vivado_build_targets)
-
-# Update the Vitis makefile
-vitis_makefile = '../Vitis/Makefile'
-vitis_targets = get_vitis_targets(data, args)
-update_file(vitis_makefile,vitis_targets)
 
 ## Update the PetaLinux makefile
 #petalinux_makefile = '../PetaLinux/Makefile'
